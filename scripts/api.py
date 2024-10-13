@@ -26,11 +26,17 @@ TOTAL_TAG_LENGTH = {
     "LONG": "long",
     "VERY_LONG": "very long",
 }
-DEFAULT_FORMAT = """<|special|>, 
-<|characters|>, <|copyrights|>, 
+DEFAULT_FORMAT = """<|special|>, <|characters|>, <|copyrights|>, 
 <|artist|>, 
 
-<|general|>, """
+<|extended|>.
+
+<|general|>,
+
+<|generated|>.
+
+<|quality|>, <|meta|>, <|rating|>
+"""
 
 
 def process(
