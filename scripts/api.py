@@ -93,6 +93,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         ban_tags: str = Body("none", title='ban_tags'),
         seed: str = Body("none", title='seed')
     ):
+        seed = int(seed)
         models.model_dir = pathlib.Path(__file__).parent / "models"
         aspect_ratio = float(aspect_ratio)
         # file = models.download_gguf(gguf_name="ggml-model-Q6_K.gguf")
