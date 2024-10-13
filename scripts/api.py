@@ -105,7 +105,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         result = process(
             prompt,
             aspect_ratio=aspect_ratio,
-            seed=1,
+            seed=-1,
             tag_length=TOTAL_TAG_LENGTH[tag_length],
             ban_tags=ban_tags,
             format=DEFAULT_FORMAT,
