@@ -4,7 +4,7 @@ import pathlib
 import kgen.models as models
 from kgen.formatter import seperate_tags, apply_format
 from kgen.metainfo import TARGET
-from kgen.dtg.executor import tag_gen, apply_dtg_prompt
+from kgen.executor.dtg import tag_gen, apply_dtg_prompt
 from kgen.logging import logger
 
 import numpy as np
