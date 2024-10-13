@@ -91,6 +91,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         tag_length: str = Body("none", title='tag_length'),
         aspect_ratio: str = Body("none", title='aspect_ratio'),
         ban_tags: str = Body("none", title='ban_tags')
+        seed: str = Body("none", title='seed')
     ):
         models.model_dir = pathlib.Path(__file__).parent / "models"
         aspect_ratio = float(aspect_ratio)
@@ -105,7 +106,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         result = process(
             prompt,
             aspect_ratio=aspect_ratio,
-            seed=-1,
+            seed=seed,
             tag_length=TOTAL_TAG_LENGTH[tag_length],
             ban_tags=ban_tags,
             format=DEFAULT_FORMAT,
