@@ -91,7 +91,6 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         # file = models.download_gguf(gguf_name="ggml-model-Q6_K.gguf")
         files = models.list_gguf()
         file = files[-1]
-        logger.info(f"Use gguf model from local file: {file}")
         models.load_model(file, gguf=True, device="cpu")
         # models.load_model()
         # models.text_model.half().cuda()
