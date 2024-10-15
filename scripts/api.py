@@ -27,12 +27,12 @@ TOTAL_TAG_LENGTH = {
     "VERY_LONG": "very long",
 }
 DEFAULT_FORMAT = """
-<|special|>, <|characters|>, <|copyrights|>, 
+<|special|>, <|characters|>,
 <|artist|>, 
 
 <|general|>,
 
-<|quality|>, <|meta|>, <|rating|>
+<|rating|>
 """
 
 
