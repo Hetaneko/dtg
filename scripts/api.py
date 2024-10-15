@@ -1,11 +1,16 @@
-import time
 import pathlib
+import re
+import random
+from time import time
+
+import torch
+from transformers import AutoTokenizer, logging
 
 import kgen.models as models
+import kgen.executor.tipo as tipo
 from kgen.formatter import seperate_tags, apply_format
-from kgen.metainfo import TARGET
-from kgen.executor.dtg import tag_gen, apply_dtg_prompt
-from kgen.logging import logger
+from kgen.generate import generate
+
 
 import numpy as np
 from fastapi import FastAPI, Body
@@ -27,12 +32,12 @@ TOTAL_TAG_LENGTH = {
     "VERY_LONG": "very long",
 }
 DEFAULT_FORMAT = """
-<|special|>, <|characters|>,
+<|special|>, <|characters|>, <|copyrights|>, 
 <|artist|>, 
 
 <|general|>,
 
-<|rating|>
+<|quality|>, <|meta|>, <|rating|>
 """
 
 
@@ -45,41 +50,31 @@ def process(
     format: str,
     temperature: float,
 ):
-    propmt_preview = prompt.replace("\n", " ")[:40]
-    logger.info(f"Processing propmt: {propmt_preview}...")
-    logger.info(f"Processing with seed: {seed}")
-    black_list = [tag.strip() for tag in ban_tags.split(",") if tag.strip()]
-    all_tags = [tag.strip().lower() for tag in prompt.strip().split(",") if tag.strip()]
-
-    tag_length = tag_length.replace(" ", "_")
-    len_target = TARGET[tag_length]
-
-    tag_map = seperate_tags(all_tags)
-    dtg_prompt = apply_dtg_prompt(tag_map, tag_length, aspect_ratio)
-    for _, extra_tokens, iter_count in tag_gen(
-        models.text_model,
-        models.tokenizer,
-        dtg_prompt,
-        tag_map["special"] + tag_map["general"],
-        len_target,
-        black_list,
-        temperature=temperature,
-        top_p=0.95,
-        top_k=100,
-        max_new_tokens=256,
-        max_retry=20,
-        max_same_output=15,
-        seed=seed % SEED_MAX,
-    ):
-        pass
-    tag_map["general"] += extra_tokens
-    prompt_by_dtg = apply_format(tag_map, format)
-    logger.info(
-        "Prompt processing done. General Tags Count: "
-        f"{len(tag_map['general'] + tag_map['special'])}"
-        f" | Total iterations: {iter_count}"
+    tipo.BAN_TAGS = seperate_tags(ban_tags.split(","))
+    
+    models.load_model(
+    "TIPO-500M_epoch5-F16.gguf",
+    gguf=True,
+    device="cuda",
+    main_gpu=0,
     )
-    return prompt_by_dtg
+
+    generate(max_new_tokens=4)
+
+    def task(tags, nl_prompt):
+        meta, operations, general, nl_prompt = tipo.parse_tipo_request(
+            seperate_tags(tags.split(",")),
+            nl_prompt,
+            tag_length_target=tag_length,
+            generate_extra_nl_prompt=not nl_prompt,
+        )
+        meta["aspect_ratio"] = f"{aspect_ratio:.1f}"
+        result, timing = tipo.tipo_runner(meta, operations, general, nl_prompt)
+        formatted = re.sub(r"([()\[\]])", r"\\\1", apply_format(result, DEFAULT_FORMAT))
+        return formatted
+    
+    formatted = task(prompt, "")
+    return formatted
 
 def dtg_api(_: gr.Blocks, app: FastAPI):
     @app.post("/dtg/process")
