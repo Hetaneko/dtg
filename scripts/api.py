@@ -54,7 +54,7 @@ def process(
     tipo.BAN_TAGS = seperate_tags(ban_tags.split(","))
     
     models.load_model(
-    "TIPO-500M_epoch5-F16.gguf",
+    "TIPO-500M-ft-F16.gguf",
     gguf=True,
     device="cuda",
     main_gpu=0,
