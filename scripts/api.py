@@ -57,7 +57,7 @@ def process(
     "TIPO-500M-ft-F16.gguf",
     gguf=True,
     device="cuda",
-    main_gpu=0,
+    main_gpu=1,
     )
 
     generate(max_new_tokens=4)
