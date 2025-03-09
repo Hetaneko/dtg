@@ -89,71 +89,71 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         if len(prompt) > 1:
             allresults = []
             def task1():
-                result = process(
-                    prompt[0],
-                    aspect_ratio=aspect_ratio[0],
-                    seed=seed[0],
-                    tag_length=TOTAL_TAG_LENGTH[tag_length[0]],
-                    ban_tags=ban_tags[0],
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append(result)
+                # result = process(
+                #     prompt[0],
+                #     aspect_ratio=aspect_ratio[0],
+                #     seed=seed[0],
+                #     tag_length=TOTAL_TAG_LENGTH[tag_length[0]],
+                #     ban_tags=ban_tags[0],
+                #     format=DEFAULT_FORMAT,
+                #     temperature=1.35,
+                # )
+                allresults.append("result1")
             def task2():
-                result = process(
-                    prompt[1],
-                    aspect_ratio=aspect_ratio[1],
-                    seed=seed[1],
-                    tag_length=TOTAL_TAG_LENGTH[tag_length[1]],
-                    ban_tags=ban_tags[1],
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append(result)
+                # result = process(
+                #     prompt[1],
+                #     aspect_ratio=aspect_ratio[1],
+                #     seed=seed[1],
+                #     tag_length=TOTAL_TAG_LENGTH[tag_length[1]],
+                #     ban_tags=ban_tags[1],
+                #     format=DEFAULT_FORMAT,
+                #     temperature=1.35,
+                # )
+                allresults.append("result1")
             def task3():
-                result = process(
-                    prompt[2],
-                    aspect_ratio=aspect_ratio[2],
-                    seed=seed[2],
-                    tag_length=TOTAL_TAG_LENGTH[tag_length[2]],
-                    ban_tags=ban_tags[2],
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append(result)
+                # result = process(
+                #     prompt[2],
+                #     aspect_ratio=aspect_ratio[2],
+                #     seed=seed[2],
+                #     tag_length=TOTAL_TAG_LENGTH[tag_length[2]],
+                #     ban_tags=ban_tags[2],
+                #     format=DEFAULT_FORMAT,
+                #     temperature=1.35,
+                # )
+                allresults.append("result1")
             def task4():
-                result = process(
-                    prompt[3],
-                    aspect_ratio=aspect_ratio[3],
-                    seed=seed[3],
-                    tag_length=TOTAL_TAG_LENGTH[tag_length[3]],
-                    ban_tags=ban_tags[3],
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append(result)
+                # result = process(
+                #     prompt[3],
+                #     aspect_ratio=aspect_ratio[3],
+                #     seed=seed[3],
+                #     tag_length=TOTAL_TAG_LENGTH[tag_length[3]],
+                #     ban_tags=ban_tags[3],
+                #     format=DEFAULT_FORMAT,
+                #     temperature=1.35,
+                # )
+                allresults.append("result1")
             def task5():
-                result = process(
-                    prompt[4],
-                    aspect_ratio=aspect_ratio[4],
-                    seed=seed[4],
-                    tag_length=TOTAL_TAG_LENGTH[tag_length[4]],
-                    ban_tags=ban_tags[40],
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append(result)
+                # result = process(
+                #     prompt[4],
+                #     aspect_ratio=aspect_ratio[4],
+                #     seed=seed[4],
+                #     tag_length=TOTAL_TAG_LENGTH[tag_length[4]],
+                #     ban_tags=ban_tags[40],
+                #     format=DEFAULT_FORMAT,
+                #     temperature=1.35,
+                # )
+                allresults.append("result1")
             def task6():
-                result = process(
-                    prompt[5],
-                    aspect_ratio=aspect_ratio[5],
-                    seed=seed[5],
-                    tag_length=TOTAL_TAG_LENGTH[tag_length[5]],
-                    ban_tags=ban_tags[5],
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append(result)
+                # result = process(
+                #     prompt[5],
+                #     aspect_ratio=aspect_ratio[5],
+                #     seed=seed[5],
+                #     tag_length=TOTAL_TAG_LENGTH[tag_length[5]],
+                #     ban_tags=ban_tags[5],
+                #     format=DEFAULT_FORMAT,
+                #     temperature=1.35,
+                # )
+                allresults.append("result1")
                 
             t1 = threading.Thread(target=task1, name='t1')
             t2 = threading.Thread(target=task2, name='t2')
