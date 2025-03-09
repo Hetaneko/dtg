@@ -92,7 +92,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
             def task1():
                 result = process(
                     "1girl,sitting",
-                    aspect_ratio="1.2",
+                    aspect_ratio=float("1.2"),
                     seed=1,
                     tag_length=TOTAL_TAG_LENGTH["LONG"],
                     ban_tags="",
