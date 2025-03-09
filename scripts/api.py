@@ -11,7 +11,7 @@ import kgen.executor.tipo as tipo
 from kgen.formatter import seperate_tags, apply_format
 from kgen.generate import generate
 from kgen.logging import logger
-
+import threading
 
 import numpy as np
 from fastapi import FastAPI, Body
@@ -80,33 +80,119 @@ def process(
 def dtg_api(_: gr.Blocks, app: FastAPI):
     @app.post("/dtg/process")
     async def dtg(
-        prompt: str = Body("query", title='prompt'),
-        tag_length: str = Body("none", title='tag_length'),
-        aspect_ratio: str = Body("none", title='aspect_ratio'),
-        ban_tags: str = Body("none", title='ban_tags'),
-        seed: str = Body("none", title='seed')
+        prompt: list = Body("query", title='prompt'),
+        tag_length: list = Body("none", title='tag_length'),
+        aspect_ratio: list = Body("none", title='aspect_ratio'),
+        ban_tags: list = Body("none", title='ban_tags'),
+        seed: list = Body("none", title='seed')
     ):
-        seed = int(seed)
-        models.model_dir = pathlib.Path(__file__).parent / "models"
-        aspect_ratio = float(aspect_ratio)
-        # file = models.download_gguf(gguf_name="ggml-model-Q6_K.gguf")
-        # files = models.list_gguf()
-        # file = files[-1]
-        # logger.info(f"Use gguf model from local file: {file}")
-        # models.load_model(file, gguf=True, device="cpu")
-        # models.load_model()
-        # models.text_model.half().cuda()
-
-        result = process(
-            [prompt,prompt],
-            aspect_ratio=aspect_ratio,
-            seed=seed,
-            tag_length=TOTAL_TAG_LENGTH[tag_length],
-            ban_tags=ban_tags,
-            format=DEFAULT_FORMAT,
-            temperature=1.35,
-        )
-        return result
+        if len(prompt) > 1:
+            allresults = []
+            def task1():
+                result = process(
+                    prompt[0],
+                    aspect_ratio=aspect_ratio[0],
+                    seed=seed[0],
+                    tag_length=TOTAL_TAG_LENGTH[tag_length[0]],
+                    ban_tags=ban_tags[0],
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
+                allresults.append(result)
+            def task2():
+                result = process(
+                    prompt[1],
+                    aspect_ratio=aspect_ratio[1],
+                    seed=seed[1],
+                    tag_length=TOTAL_TAG_LENGTH[tag_length[1]],
+                    ban_tags=ban_tags[1],
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
+                allresults.append(result)
+            def task3():
+                result = process(
+                    prompt[2],
+                    aspect_ratio=aspect_ratio[2],
+                    seed=seed[2],
+                    tag_length=TOTAL_TAG_LENGTH[tag_length[2]],
+                    ban_tags=ban_tags[2],
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
+                allresults.append(result)
+            def task4():
+                result = process(
+                    prompt[3],
+                    aspect_ratio=aspect_ratio[3],
+                    seed=seed[3],
+                    tag_length=TOTAL_TAG_LENGTH[tag_length[3]],
+                    ban_tags=ban_tags[3],
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
+                allresults.append(result)
+            def task5():
+                result = process(
+                    prompt[4],
+                    aspect_ratio=aspect_ratio[4],
+                    seed=seed[4],
+                    tag_length=TOTAL_TAG_LENGTH[tag_length[4]],
+                    ban_tags=ban_tags[40],
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
+                allresults.append(result)
+            def task6():
+                result = process(
+                    prompt[5],
+                    aspect_ratio=aspect_ratio[5],
+                    seed=seed[5],
+                    tag_length=TOTAL_TAG_LENGTH[tag_length[5]],
+                    ban_tags=ban_tags[5],
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
+                allresults.append(result)
+                
+            t1 = threading.Thread(target=task1, name='t1')
+            t2 = threading.Thread(target=task2, name='t2')
+            t3 = threading.Thread(target=task3, name='t3')
+            t4 = threading.Thread(target=task4, name='t4')
+            t5 = threading.Thread(target=task5, name='t5')
+            t6 = threading.Thread(target=task6, name='t6')
+        
+            t1.start()
+            t2.start()
+            t3.start()
+            t4.start()
+            t5.start()
+            t6.start()
+        
+            t1.join()
+            t2.join()
+            t3.join()
+            t4.join()
+            t5.join()
+            t6.join()
+            return allresults
+        else:
+            prompt = prompt[0]
+            tag_length = tag_length[0]
+            seed = int(seed[0])
+            aspect_ratio = float(aspect_ratio[0])
+            ban_tags = ban_tags[0]
+    
+            result = process(
+                prompt,
+                aspect_ratio=aspect_ratio,
+                seed=seed,
+                tag_length=TOTAL_TAG_LENGTH[tag_length],
+                ban_tags=ban_tags,
+                format=DEFAULT_FORMAT,
+                temperature=1.35,
+            )
+            return [result]
 try:
     import modules.script_callbacks as script_callbacks
 
