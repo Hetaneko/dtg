@@ -81,11 +81,11 @@ def process(
 def dtg_api(_: gr.Blocks, app: FastAPI):
     @app.post("/dtg/process")
     async def dtg(
-        prompt: list = Body("query", title='prompt'),
-        tag_length: list = Body("none", title='tag_length'),
-        aspect_ratio: list = Body("none", title='aspect_ratio'),
-        ban_tags: list = Body("none", title='ban_tags'),
-        seed: list = Body("none", title='seed')
+        prompt: str = Body("query", title='prompt'),
+        tag_length: str = Body("none", title='tag_length'),
+        aspect_ratio: str = Body("none", title='aspect_ratio'),
+        ban_tags: str = Body("none", title='ban_tags'),
+        seed: str = Body("none", title='seed')
     ):
         if len(prompt) > 1:
             allresults = []
@@ -178,11 +178,11 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
             # t6.join()
             return allresults
         else:
-            prompt = prompt[0]
-            tag_length = tag_length[0]
-            seed = int(seed[0])
-            aspect_ratio = float(aspect_ratio[0])
-            ban_tags = ban_tags[0]
+            prompt = prompt
+            tag_length = tag_length
+            seed = int(seed)
+            aspect_ratio = float(aspect_ratio)
+            ban_tags = ban_tags
     
             result = process(
                 prompt,
