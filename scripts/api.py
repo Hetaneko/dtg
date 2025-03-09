@@ -86,6 +86,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         ban_tags: list = Body("none", title='ban_tags'),
         seed: list = Body("none", title='seed')
     ):
+        models.model_dir = pathlib.Path(__file__).parent / "models"
         if len(prompt) > 1:
             allresults = []
             def task1():
