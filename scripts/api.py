@@ -87,103 +87,8 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         ban_tags: str = Body("none", title='ban_tags'),
         seed: str = Body("none", title='seed')
     ):
-        if len(prompt) > 1:
-            allresults = []
-            def task1():
-                result = process(
-                    "1girl,sitting",
-                    aspect_ratio=float("1.2"),
-                    seed=1,
-                    tag_length=TOTAL_TAG_LENGTH["LONG"],
-                    ban_tags="",
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append(result)
-            def task2():
-                result = process(
-                    "1girl,sitting",
-                    aspect_ratio=float("1.2"),
-                    seed=1,
-                    tag_length=TOTAL_TAG_LENGTH["LONG"],
-                    ban_tags="",
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append("result1")
-            def task3():
-                result = process(
-                    "1girl,sitting",
-                    aspect_ratio=float("1.2"),
-                    seed=1,
-                    tag_length=TOTAL_TAG_LENGTH["LONG"],
-                    ban_tags="",
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append("result1")
-            def task4():
-                result = process(
-                    "1girl,sitting",
-                    aspect_ratio=float("1.2"),
-                    seed=1,
-                    tag_length=TOTAL_TAG_LENGTH["LONG"],
-                    ban_tags="",
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append("result1")
-            def task5():
-                result = process(
-                    "1girl,sitting",
-                    aspect_ratio=float("1.2"),
-                    seed=1,
-                    tag_length=TOTAL_TAG_LENGTH["LONG"],
-                    ban_tags="",
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append("result1")
-            def task6():
-                result = process(
-                    "1girl,sitting",
-                    aspect_ratio=float("1.2"),
-                    seed=1,
-                    tag_length=TOTAL_TAG_LENGTH["LONG"],
-                    ban_tags="",
-                    format=DEFAULT_FORMAT,
-                    temperature=1.35,
-                )
-                allresults.append("result1")
-                
-            t1 = threading.Thread(target=task1, name='t1')
-            t2 = threading.Thread(target=task2, name='t2')
-            # t3 = threading.Thread(target=task3, name='t3')
-            # t4 = threading.Thread(target=task4, name='t4')
-            # t5 = threading.Thread(target=task5, name='t5')
-            # t6 = threading.Thread(target=task6, name='t6')
-        
-            t1.start()
-            t2.start()
-            # t3.start()
-            # t4.start()
-            # t5.start()
-            # t6.start()
-        
-            t1.join()
-            t2.join()
-            # t3.join()
-            # t4.join()
-            # t5.join()
-            # t6.join()
-            return allresults
-        else:
-            prompt = prompt
-            tag_length = tag_length
             seed = int(seed)
-            aspect_ratio = float(aspect_ratio)
-            ban_tags = ban_tags
-    
+            aspect_ratio = float(aspect_ratio)    
             result = process(
                 prompt,
                 aspect_ratio=aspect_ratio,
@@ -193,7 +98,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
                 format=DEFAULT_FORMAT,
                 temperature=1.35,
             )
-            return [result]
+            return result
 try:
     import modules.script_callbacks as script_callbacks
 
