@@ -101,59 +101,59 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
                 )
                 allresults.append(result)
             def task2():
-                # result = process(
-                #     prompt[1],
-                #     aspect_ratio=aspect_ratio[1],
-                #     seed=seed[1],
-                #     tag_length=TOTAL_TAG_LENGTH[tag_length[1]],
-                #     ban_tags=ban_tags[1],
-                #     format=DEFAULT_FORMAT,
-                #     temperature=1.35,
-                # )
+                result = process(
+                    "1girl,sitting",
+                    aspect_ratio=float("1.2"),
+                    seed=1,
+                    tag_length=TOTAL_TAG_LENGTH["LONG"],
+                    ban_tags="",
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
                 allresults.append("result1")
             def task3():
-                # result = process(
-                #     prompt[2],
-                #     aspect_ratio=aspect_ratio[2],
-                #     seed=seed[2],
-                #     tag_length=TOTAL_TAG_LENGTH[tag_length[2]],
-                #     ban_tags=ban_tags[2],
-                #     format=DEFAULT_FORMAT,
-                #     temperature=1.35,
-                # )
+                result = process(
+                    "1girl,sitting",
+                    aspect_ratio=float("1.2"),
+                    seed=1,
+                    tag_length=TOTAL_TAG_LENGTH["LONG"],
+                    ban_tags="",
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
                 allresults.append("result1")
             def task4():
-                # result = process(
-                #     prompt[3],
-                #     aspect_ratio=aspect_ratio[3],
-                #     seed=seed[3],
-                #     tag_length=TOTAL_TAG_LENGTH[tag_length[3]],
-                #     ban_tags=ban_tags[3],
-                #     format=DEFAULT_FORMAT,
-                #     temperature=1.35,
-                # )
+                result = process(
+                    "1girl,sitting",
+                    aspect_ratio=float("1.2"),
+                    seed=1,
+                    tag_length=TOTAL_TAG_LENGTH["LONG"],
+                    ban_tags="",
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
                 allresults.append("result1")
             def task5():
-                # result = process(
-                #     prompt[4],
-                #     aspect_ratio=aspect_ratio[4],
-                #     seed=seed[4],
-                #     tag_length=TOTAL_TAG_LENGTH[tag_length[4]],
-                #     ban_tags=ban_tags[40],
-                #     format=DEFAULT_FORMAT,
-                #     temperature=1.35,
-                # )
+                result = process(
+                    "1girl,sitting",
+                    aspect_ratio=float("1.2"),
+                    seed=1,
+                    tag_length=TOTAL_TAG_LENGTH["LONG"],
+                    ban_tags="",
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
                 allresults.append("result1")
             def task6():
-                # result = process(
-                #     prompt[5],
-                #     aspect_ratio=aspect_ratio[5],
-                #     seed=seed[5],
-                #     tag_length=TOTAL_TAG_LENGTH[tag_length[5]],
-                #     ban_tags=ban_tags[5],
-                #     format=DEFAULT_FORMAT,
-                #     temperature=1.35,
-                # )
+                result = process(
+                    "1girl,sitting",
+                    aspect_ratio=float("1.2"),
+                    seed=1,
+                    tag_length=TOTAL_TAG_LENGTH["LONG"],
+                    ban_tags="",
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
                 allresults.append("result1")
                 
             t1 = threading.Thread(target=task1, name='t1')
