@@ -89,16 +89,16 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         if len(prompt) > 1:
             allresults = []
             def task1():
-                # result = process(
-                #     prompt[0],
-                #     aspect_ratio=aspect_ratio[0],
-                #     seed=seed[0],
-                #     tag_length=TOTAL_TAG_LENGTH[tag_length[0]],
-                #     ban_tags=ban_tags[0],
-                #     format=DEFAULT_FORMAT,
-                #     temperature=1.35,
-                # )
-                allresults.append("result1")
+                result = process(
+                    "1girl,sitting",
+                    aspect_ratio="2",
+                    seed=1,
+                    tag_length=TOTAL_TAG_LENGTH["LONG"],
+                    ban_tags="",
+                    format=DEFAULT_FORMAT,
+                    temperature=1.35,
+                )
+                allresults.append(result)
             def task2():
                 # result = process(
                 #     prompt[1],
