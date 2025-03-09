@@ -76,6 +76,40 @@ def process(
     
     formatted = task(prompt, "")
     return formatted
+def process2(
+    prompt: str,
+    aspect_ratio: float,
+    seed: int,
+    tag_length: str,
+    ban_tags: str,
+    format: str,
+    temperature: float,
+):
+    tipo.BAN_TAGS = seperate_tags(ban_tags.split(","))
+    
+    models.load_model(
+    "TIPO-500M-ft-F16.gguf",
+    gguf=True,
+    device="cuda",
+    main_gpu=1,
+    )
+
+    generate(max_new_tokens=4)
+
+    def task(tags, nl_prompt):
+        meta, operations, general, nl_prompt = tipo.parse_tipo_request(
+            seperate_tags(tags.split(",")),
+            nl_prompt,
+            tag_length_target=tag_length,
+            generate_extra_nl_prompt=not nl_prompt,
+        )
+        meta["aspect_ratio"] = f"{aspect_ratio:.1f}"
+        result, timing = tipo.tipo_runner(meta, operations, general, nl_prompt)
+        formatted = re.sub(r"([()\[\]])", r"\\\1", apply_format(result, DEFAULT_FORMAT))
+        return formatted
+    
+    formatted = task(prompt, "")
+    return formatted
 
 def dtg_api(_: gr.Blocks, app: FastAPI):
     @app.post("/dtg/process")
@@ -101,7 +135,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
                 )
                 allresults.append(result)
             def task2():
-                result = process(
+                result = process2(
                     "1girl,sitting",
                     aspect_ratio=float("1.2"),
                     seed=1,
@@ -158,24 +192,24 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
                 
             t1 = threading.Thread(target=task1, name='t1')
             t2 = threading.Thread(target=task2, name='t2')
-            t3 = threading.Thread(target=task3, name='t3')
-            t4 = threading.Thread(target=task4, name='t4')
-            t5 = threading.Thread(target=task5, name='t5')
-            t6 = threading.Thread(target=task6, name='t6')
+            # t3 = threading.Thread(target=task3, name='t3')
+            # t4 = threading.Thread(target=task4, name='t4')
+            # t5 = threading.Thread(target=task5, name='t5')
+            # t6 = threading.Thread(target=task6, name='t6')
         
             t1.start()
             t2.start()
-            t3.start()
-            t4.start()
-            t5.start()
-            t6.start()
+            # t3.start()
+            # t4.start()
+            # t5.start()
+            # t6.start()
         
             t1.join()
             t2.join()
-            t3.join()
-            t4.join()
-            t5.join()
-            t6.join()
+            # t3.join()
+            # t4.join()
+            # t5.join()
+            # t6.join()
             return allresults
         else:
             prompt = prompt[0]
