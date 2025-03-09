@@ -6,11 +6,6 @@ from time import time
 import torch
 from transformers import AutoTokenizer, logging
 
-import kgen.models as models
-import kgen.executor.tipo as tipo
-from kgen.formatter import seperate_tags, apply_format
-from kgen.generate import generate
-from kgen.logging import logger
 import threading
 
 import numpy as np
@@ -51,42 +46,14 @@ def process(
     format: str,
     temperature: float,
 ):
+    import kgen.executor.tipo as tipo
+    from kgen.formatter import seperate_tags, apply_format
+    from kgen.generate import generate
+    from kgen.logging import logger
+    import kgen.models as models
+    
+    models.model_dir = pathlib.Path(__file__).parent / "models"
     tipo.BAN_TAGS = seperate_tags(ban_tags.split(","))
-    
-    models.load_model(
-    "TIPO-500M-ft-F16.gguf",
-    gguf=True,
-    device="cuda",
-    main_gpu=1,
-    )
-
-    generate(max_new_tokens=4)
-
-    def task(tags, nl_prompt):
-        meta, operations, general, nl_prompt = tipo.parse_tipo_request(
-            seperate_tags(tags.split(",")),
-            nl_prompt,
-            tag_length_target=tag_length,
-            generate_extra_nl_prompt=not nl_prompt,
-        )
-        meta["aspect_ratio"] = f"{aspect_ratio:.1f}"
-        result, timing = tipo.tipo_runner(meta, operations, general, nl_prompt)
-        formatted = re.sub(r"([()\[\]])", r"\\\1", apply_format(result, DEFAULT_FORMAT))
-        return formatted
-    
-    formatted = task(prompt, "")
-    return formatted
-def process2(
-    prompt: str,
-    aspect_ratio: float,
-    seed: int,
-    tag_length: str,
-    ban_tags: str,
-    format: str,
-    temperature: float,
-):
-    tipo.BAN_TAGS = seperate_tags(ban_tags.split(","))
-    
     models.load_model(
     "TIPO-500M-ft-F16.gguf",
     gguf=True,
@@ -120,7 +87,6 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
         ban_tags: list = Body("none", title='ban_tags'),
         seed: list = Body("none", title='seed')
     ):
-        models.model_dir = pathlib.Path(__file__).parent / "models"
         if len(prompt) > 1:
             allresults = []
             def task1():
@@ -135,7 +101,7 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
                 )
                 allresults.append(result)
             def task2():
-                result = process2(
+                result = process(
                     "1girl,sitting",
                     aspect_ratio=float("1.2"),
                     seed=1,
