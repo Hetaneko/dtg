@@ -155,12 +155,12 @@ def dtg_api(_: gr.Blocks, app: FastAPI):
                 )
                 allresults.append(result)
                 
-            t1 = threading.Thread(target=task1, name='t1')
-            t2 = threading.Thread(target=task2, name='t2')
-            t3 = threading.Thread(target=task3, name='t3')
-            t4 = threading.Thread(target=task4, name='t4')
-            t5 = threading.Thread(target=task5, name='t5')
-            t6 = threading.Thread(target=task6, name='t6')
+            t1 = threading.Thread(target=task1, name='t1', verbose=True)
+            t2 = threading.Thread(target=task2, name='t2', verbose=True)
+            t3 = threading.Thread(target=task3, name='t3', verbose=True)
+            t4 = threading.Thread(target=task4, name='t4', verbose=True)
+            t5 = threading.Thread(target=task5, name='t5', verbose=True)
+            t6 = threading.Thread(target=task6, name='t6', verbose=True)
         
             t1.start()
             t2.start()
